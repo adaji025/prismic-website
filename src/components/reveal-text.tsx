@@ -28,14 +28,30 @@ const RevealText = ({
   const componentRef = useRef<HTMLDivElement>(null);
   const words = asText(field)?.split(" ");
 
-  useGSAP(() => {
-    gsap.to(".reveal-text-word", {
-        y: 0,
-        stagger: staggerAmount,
-        duration: duration,
-        ease: "power3.out"
-    })
-  }, { scope: componentRef });
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(".reveal-text-word", {
+          y: 0,
+          stagger: staggerAmount,
+          duration: duration,
+          ease: "power3.out",
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(".reveal-text-word", {
+          duration: 0.5,
+          opacity: 0.5,
+          ease: "none",
+          y: 0,
+          stagger: 0,
+        });
+      });
+    },
+    { scope: componentRef },
+  );
   return (
     <Component
       className={clsx(
@@ -54,6 +70,7 @@ const RevealText = ({
         >
           <span className="reveal-text-word mt-0 inline-block translate-y-[120%] will-change-transform">
             {word}
+            {index < words.length - 1 ? <>&nbsp;</> : null}
           </span>
         </span>
       ))}

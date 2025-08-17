@@ -14,16 +14,27 @@ gsap.registerPlugin(useGSAP);
 const FadeIn = ({ children, vars = {}, className }: IProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const mm = gsap.matchMedia()
-
   useGSAP(
     () => {
-      gsap.to(containerRef.current, {
-        duration: 5,
-        opacity: 0.5,
-        ease: "power3.inOut",
-        y: 0,
-        ...vars,
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(containerRef.current, {
+          duration: 5,
+          opacity: 0.5,
+          ease: "power3.inOut",
+          y: 0,
+          ...vars,
+        });
+      });
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(containerRef.current, {
+          duration: 0.5,
+          opacity: 0.5,
+          ease: "none",
+          y: 0,
+          stagger: 0,
+        });
       });
     },
     { scope: containerRef },

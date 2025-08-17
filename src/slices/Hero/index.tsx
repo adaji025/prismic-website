@@ -4,9 +4,9 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import clsx from "clsx";
 
-import { Bounded } from "@/app/components/bounded";
-import FadeIn from "@/app/components/fade-in";
-import RevealText from "@/app/components/reveal-text";
+import { Bounded } from "@/components/bounded";
+import FadeIn from "@/components/fade-in";
+import RevealText from "@/components/reveal-text";
 
 export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
@@ -19,14 +19,14 @@ const Hero: FC<HeroProps> = ({ slice }) => {
     >
       <FadeIn
         vars={{ scale: 1, opacity: 0.5 }}
-        className="absolute inset-0 scale-125 opacity-0"
+        className="absolute inset-0 motion-safe:scale-125 opacity-0"
       >
         <PrismicNextImage
           field={slice.primary.image}
           alt=""
           priority
           fill
-          className="object-cover"
+          className="object-cover motion-reduce:opacity-50"
         />
       </FadeIn>
       <div className="relative flex h-dvh flex-col justify-center">
