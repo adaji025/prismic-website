@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { Bounded } from "@/components/bounded";
 import FadeIn from "@/components/fade-in";
 import RevealText from "@/components/reveal-text";
+import ButtonLink from "@/components/button-link";
 
 export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
@@ -19,7 +20,7 @@ const Hero: FC<HeroProps> = ({ slice }) => {
     >
       <FadeIn
         vars={{ scale: 1, opacity: 0.5 }}
-        className="absolute inset-0 motion-safe:scale-125 opacity-0"
+        className="absolute inset-0 opacity-0 motion-safe:scale-125"
       >
         <PrismicNextImage
           field={slice.primary.image}
@@ -49,16 +50,11 @@ const Hero: FC<HeroProps> = ({ slice }) => {
           vars={{ delay: 1.7, duration: 1.1 }}
         >
           {slice.primary.button.map((link) => (
-            <PrismicNextLink
+            <ButtonLink
               key={link.key}
               field={link}
-              className={clsx(
-                "inline-flex items-center justify-center px-12 py-4 text-center font-extrabold tracking-wider uppercase transition-colors duration-300",
-                link.variant === "Secondary"
-                  ? "border border-white text-white hover:bg-white/20"
-                  : "bg-white text-black hover:bg-white/80",
-                "w-fit",
-              )}
+              className="w-fit"
+              variant="Primary"
             />
           ))}
         </FadeIn>
